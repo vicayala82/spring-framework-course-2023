@@ -26,15 +26,15 @@ public class ReservationEntity implements Serializable {
     private LocalDateTime dateTimeReservation;
     private LocalDate dateStart;
     private LocalDate dateEnd;
-    private Integer totalDays;
+    private Long totalDays;
     private BigDecimal price;
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "hotel_id")
     private HotelEntity hotel;
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "tour_id", nullable = true)
     private TourEntity tour;
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "customer_id", nullable = true)
     private CustomerEntity customer;
 

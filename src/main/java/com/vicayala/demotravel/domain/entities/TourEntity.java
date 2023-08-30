@@ -35,7 +35,7 @@ public class TourEntity {
             mappedBy = "tour"
     )
     private Set<TicketEntity> tickets;
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id_customer")
     private CustomerEntity customer;
 

@@ -7,6 +7,7 @@ import com.vicayala.demotravel.domain.repositories.CustomerRepository;
 import com.vicayala.demotravel.domain.repositories.FlyRepository;
 import com.vicayala.demotravel.domain.repositories.TicketRepository;
 import com.vicayala.demotravel.infraestructure.abstract_services.ITicketService;
+import com.vicayala.demotravel.util.BestTravelUtil;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -14,8 +15,9 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.UUID;
+
+import static com.vicayala.demotravel.util.ServiceConstants.CHARGE_PRICE_PERCENTAGE;
 
 @Transactional
 @Service
@@ -35,10 +37,11 @@ public class TicketService implements ITicketService {
                 .id(UUID.randomUUID())
                 .fly(fly)
                 .customer(customer)
-                .price(fly.getPrice().multiply(BigDecimal.valueOf(0.25)))
+                .price(fly.getPrice().add(fly.getPrice()
+                        .multiply(CHARGE_PRICE_PERCENTAGE)))
                 .purchaseDate(LocalDate.now())
-                .arrivalDate(LocalDateTime.now())
-                .departureDate(LocalDateTime.now())
+                .arrivalDate(BestTravelUtil.getRandomLatter())
+                .departureDate(BestTravelUtil.getRandomSoon())
                 .build();
         var ticketPersisted = this.ticketRepository.save(ticketToPersist);
         log.info("Ticket saved with id: {}", ticketPersisted.getId());
@@ -57,9 +60,10 @@ public class TicketService implements ITicketService {
         var ticketToUpdate = this.ticketRepository.findById(id).orElseThrow();
         var fly = flyRepository.findById(request.getFlyId()).orElseThrow();
         ticketToUpdate.setFly(fly);
-        ticketToUpdate.setPrice(BigDecimal.valueOf(0.25));
-        ticketToUpdate.setDepartureDate(LocalDateTime.now());
-        ticketToUpdate.setArrivalDate(LocalDateTime.now());
+        ticketToUpdate.setPrice(fly.getPrice().add(fly.getPrice()
+                .multiply(CHARGE_PRICE_PERCENTAGE)));
+        ticketToUpdate.setDepartureDate(BestTravelUtil.getRandomSoon());
+        ticketToUpdate.setArrivalDate(BestTravelUtil.getRandomLatter());
         var ticketUpdated = this.ticketRepository.save(ticketToUpdate);
         return TicketResponse.entityToResponse(ticketUpdated);
     }
@@ -68,5 +72,11 @@ public class TicketService implements ITicketService {
     public void delete(UUID id) {
         var ticketToDelete = this.ticketRepository.findById(id).orElseThrow();
         this.ticketRepository.deleteById(id);
+    }
+
+    @Override
+    public BigDecimal findPrice(Long idFly) {
+         var fly = this.flyRepository.findById(idFly).orElseThrow();
+        return fly.getPrice().add(fly.getPrice().multiply(CHARGE_PRICE_PERCENTAGE));
     }
 }

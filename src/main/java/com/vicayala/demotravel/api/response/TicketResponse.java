@@ -1,5 +1,6 @@
 package com.vicayala.demotravel.api.response;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.vicayala.demotravel.domain.entities.TicketEntity;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -20,8 +21,11 @@ import java.util.UUID;
 public class TicketResponse implements Serializable {
 
     private UUID id;
+    @JsonFormat(shape= JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm")
     private LocalDateTime departureDate;
+    @JsonFormat(shape= JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm")
     private LocalDateTime arrivalDate;
+    @JsonFormat(shape= JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     private LocalDate purchaseDate;
     private BigDecimal price;
     private FlyResponse flyResponse;
