@@ -1,7 +1,7 @@
 package com.vicayala.demotravel.api.controllers;
 
-import com.vicayala.demotravel.api.request.ReservationRequest;
-import com.vicayala.demotravel.api.response.ReservationResponse;
+import com.vicayala.demotravel.api.models.request.ReservationRequest;
+import com.vicayala.demotravel.api.models.response.ReservationResponse;
 import com.vicayala.demotravel.infraestructure.abstract_services.IReservationService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;

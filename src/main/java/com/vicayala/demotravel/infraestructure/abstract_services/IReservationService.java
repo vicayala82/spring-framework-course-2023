@@ -1,7 +1,7 @@
 package com.vicayala.demotravel.infraestructure.abstract_services;
 
-import com.vicayala.demotravel.api.request.ReservationRequest;
-import com.vicayala.demotravel.api.response.ReservationResponse;
+import com.vicayala.demotravel.api.models.request.ReservationRequest;
+import com.vicayala.demotravel.api.models.response.ReservationResponse;
 
 import java.math.BigDecimal;
 import java.util.UUID;

@@ -1,4 +1,4 @@
-package com.vicayala.demotravel.api.response;
+package com.vicayala.demotravel.api.models.response;
 
 import com.vicayala.demotravel.domain.entities.HotelEntity;
 import lombok.AllArgsConstructor;
@@ -19,6 +19,7 @@ public class HotelResponse implements Serializable {
     private String name;
     private String address;
     private BigDecimal price;
+    private Integer rating;
 
     public static HotelResponse entityToResponse(HotelEntity hotelEntity){
         return HotelResponse.builder()
@@ -26,6 +27,7 @@ public class HotelResponse implements Serializable {
                 .name(hotelEntity.getName())
                 .address(hotelEntity.getAddress())
                 .price(hotelEntity.getPrice())
+                .rating(hotelEntity.getRating())
                 .build();
     }
 }

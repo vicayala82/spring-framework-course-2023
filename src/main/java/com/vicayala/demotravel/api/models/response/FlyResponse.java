@@ -1,10 +1,12 @@
-package com.vicayala.demotravel.api.response;
+package com.vicayala.demotravel.api.models.response;
 
+import com.vicayala.demotravel.domain.entities.FlyEntity;
 import com.vicayala.demotravel.util.enums.AeroLine;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.beans.BeanUtils;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
@@ -24,4 +26,10 @@ public class FlyResponse implements Serializable {
     private String destinyName;
     private BigDecimal price;
     private AeroLine aeroLine;
+
+    public static FlyResponse entityToResponse(FlyEntity flyEntity){
+        FlyResponse flyResponse = new FlyResponse();
+        BeanUtils.copyProperties(flyEntity, flyResponse);
+        return flyResponse;
+    }
 }

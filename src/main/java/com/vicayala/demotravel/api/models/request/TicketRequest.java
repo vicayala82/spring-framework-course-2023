@@ -1,4 +1,4 @@
-package com.vicayala.demotravel.api.request;
+package com.vicayala.demotravel.api.models.request;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
@@ -8,14 +8,14 @@ import lombok.NoArgsConstructor;
 
 import java.io.Serializable;
 
-@Data
-@Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class ReservationRequest implements Serializable {
+@Builder
+@Data
+public class TicketRequest implements Serializable {
 
     @JsonProperty("client_id")
     private String clientId;
-    @JsonProperty("hotel_id")
-    private Long hotelId;
+    @JsonProperty("fly_id")
+    private Long flyId;
 }
