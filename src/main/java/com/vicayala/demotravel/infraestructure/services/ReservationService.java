@@ -1,7 +1,7 @@
 package com.vicayala.demotravel.infraestructure.services;
 
-import com.vicayala.demotravel.api.request.ReservationRequest;
-import com.vicayala.demotravel.api.response.ReservationResponse;
+import com.vicayala.demotravel.api.models.request.ReservationRequest;
+import com.vicayala.demotravel.api.models.response.ReservationResponse;
 import com.vicayala.demotravel.domain.entities.ReservationEntity;
 import com.vicayala.demotravel.domain.repositories.CustomerRepository;
 import com.vicayala.demotravel.domain.repositories.HotelRepository;

@@ -1,7 +1,7 @@
 package com.vicayala.demotravel.infraestructure.services;
 
-import com.vicayala.demotravel.api.request.TicketRequest;
-import com.vicayala.demotravel.api.response.TicketResponse;
+import com.vicayala.demotravel.api.models.request.TicketRequest;
+import com.vicayala.demotravel.api.models.response.TicketResponse;
 import com.vicayala.demotravel.domain.entities.TicketEntity;
 import com.vicayala.demotravel.domain.repositories.CustomerRepository;
 import com.vicayala.demotravel.domain.repositories.FlyRepository;

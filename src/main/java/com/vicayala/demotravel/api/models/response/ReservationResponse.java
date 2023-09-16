@@ -1,4 +1,4 @@
-package com.vicayala.demotravel.api.response;
+package com.vicayala.demotravel.api.models.response;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.vicayala.demotravel.domain.entities.ReservationEntity;
