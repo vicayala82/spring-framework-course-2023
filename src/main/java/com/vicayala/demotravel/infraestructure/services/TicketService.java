@@ -3,10 +3,12 @@ package com.vicayala.demotravel.infraestructure.services;
 import com.vicayala.demotravel.api.models.request.TicketRequest;
 import com.vicayala.demotravel.api.models.response.TicketResponse;
 import com.vicayala.demotravel.domain.entities.TicketEntity;
+import com.vicayala.demotravel.domain.entities.TourEntity;
 import com.vicayala.demotravel.domain.repositories.CustomerRepository;
 import com.vicayala.demotravel.domain.repositories.FlyRepository;
 import com.vicayala.demotravel.domain.repositories.TicketRepository;
 import com.vicayala.demotravel.infraestructure.abstract_services.ITicketService;
+import com.vicayala.demotravel.infraestructure.helpers.CustomerHelper;
 import com.vicayala.demotravel.util.BestTravelUtil;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -28,6 +30,7 @@ public class TicketService implements ITicketService {
     private final FlyRepository flyRepository;
     private final CustomerRepository customerRepository;
     private final TicketRepository ticketRepository;
+    private final CustomerHelper customerHelper;
 
      @Override
     public TicketResponse create(TicketRequest request) {
@@ -45,7 +48,7 @@ public class TicketService implements ITicketService {
                 .build();
         var ticketPersisted = this.ticketRepository.save(ticketToPersist);
         log.info("Ticket saved with id: {}", ticketPersisted.getId());
-
+        this.customerHelper.increase(customer.getDni(), TicketService.class);
         return TicketResponse.entityToResponse(ticketPersisted);
     }
 
@@ -71,7 +74,7 @@ public class TicketService implements ITicketService {
     @Override
     public void delete(UUID id) {
         var ticketToDelete = this.ticketRepository.findById(id).orElseThrow();
-        this.ticketRepository.deleteById(id);
+        this.ticketRepository.deleteById(ticketToDelete.getId());
     }
 
     @Override

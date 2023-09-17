@@ -52,7 +52,7 @@ public class TourController {
         return ResponseEntity.ok(response);
     }
     @PatchMapping(path = "{tourId}/remove_reservation/{reservationId}")
-    public ResponseEntity<Void> deleteReservation(@PathVariable Long tourId, @PathVariable UUID ticketId){
+    public ResponseEntity<Void> removeReservation(@PathVariable Long tourId, @PathVariable UUID ticketId){
         this.tourService.removeTicket(tourId, ticketId);
         return ResponseEntity.noContent().build();
     }

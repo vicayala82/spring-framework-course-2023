@@ -6,8 +6,8 @@ import com.vicayala.demotravel.domain.entities.ReservationEntity;
 import com.vicayala.demotravel.domain.repositories.CustomerRepository;
 import com.vicayala.demotravel.domain.repositories.HotelRepository;
 import com.vicayala.demotravel.domain.repositories.ReservationRepository;
-import com.vicayala.demotravel.domain.repositories.TourRepository;
 import com.vicayala.demotravel.infraestructure.abstract_services.IReservationService;
+import com.vicayala.demotravel.infraestructure.helpers.CustomerHelper;
 import com.vicayala.demotravel.util.ServiceConstants;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -29,7 +29,7 @@ public class ReservationService implements IReservationService {
     private final HotelRepository hotelRepository;
     private final CustomerRepository customerRepository;
     private final ReservationRepository reservationRepository;
-    private final TourRepository tourRepository;
+    private final CustomerHelper customerHelper;
 
     @Override
     public ReservationResponse create(ReservationRequest request) {
@@ -47,8 +47,10 @@ public class ReservationService implements IReservationService {
                 .build();
         reservationToPersist.setTotalDays(ChronoUnit.DAYS.between(reservationToPersist.getDateStart()
                 ,reservationToPersist.getDateEnd()));
-        return ReservationResponse
+        var reservationPersisted = ReservationResponse
                 .entityToResponse(reservationRepository.save(reservationToPersist));
+        this.customerHelper.increase(customer.getDni(), ReservationService.class);
+        return reservationPersisted;
     }
 
     @Override
@@ -78,7 +80,7 @@ public class ReservationService implements IReservationService {
     @Override
     public void delete(UUID id) {
         var reservationToDelete = reservationRepository.findById(id).orElseThrow();
-        reservationRepository.deleteById(id);
+        reservationRepository.deleteById(reservationToDelete.getId());
     }
 
     @Override
