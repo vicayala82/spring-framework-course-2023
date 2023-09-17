@@ -15,8 +15,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
 
@@ -47,7 +47,7 @@ public class TourHelper {
         return response;
     }
 
-    public Set<ReservationEntity> createReservations(HashMap<HotelEntity, Long> hotels
+    public Set<ReservationEntity> createReservations(Map<HotelEntity, Long> hotels
             , CustomerEntity customer){
         var response = new HashSet<ReservationEntity>(hotels.size());
         hotels.forEach((hotel, totalDays) ->{

@@ -1,10 +1,10 @@
 package com.vicayala.demotravel.util;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Random;
 
 public class BestTravelUtil {
+    private BestTravelUtil(){};
     private static final Random random= new Random();
     public static LocalDateTime getRandomSoon(){
         var randomHours = random.nextInt(5-2)+2;
