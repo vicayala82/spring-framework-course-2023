@@ -3,6 +3,7 @@ package com.vicayala.demotravel.api.controllers;
 import com.vicayala.demotravel.api.models.request.TourRequest;
 import com.vicayala.demotravel.api.models.request.TourResponse;
 import com.vicayala.demotravel.infraestructure.abstract_services.ITourService;
+import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -27,7 +28,7 @@ public class TourController {
     private final ITourService tourService;
 
     @PostMapping
-    public ResponseEntity<TourResponse> post(@RequestBody TourRequest request){
+    public ResponseEntity<TourResponse> post(@Valid @RequestBody TourRequest request){
         return ResponseEntity.ok(this.tourService.create(request));
     }
 

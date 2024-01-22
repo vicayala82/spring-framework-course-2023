@@ -3,6 +3,7 @@ package com.vicayala.demotravel.api.controllers;
 import com.vicayala.demotravel.api.models.request.ReservationRequest;
 import com.vicayala.demotravel.api.models.response.ReservationResponse;
 import com.vicayala.demotravel.infraestructure.abstract_services.IReservationService;
+import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -28,7 +29,7 @@ public class ReservationController {
     private final IReservationService reservationService;
 
     @PostMapping
-    public ResponseEntity<ReservationResponse> post(@RequestBody ReservationRequest request) {
+    public ResponseEntity<ReservationResponse> post(@Valid @RequestBody ReservationRequest request) {
         return ResponseEntity.ok(reservationService.create(request));
     }
 
@@ -38,7 +39,7 @@ public class ReservationController {
     }
 
     @PutMapping(path = "/{id}")
-    ResponseEntity<ReservationResponse> put(@RequestBody ReservationRequest request, @PathVariable UUID id) {
+    ResponseEntity<ReservationResponse> put(@Valid @RequestBody ReservationRequest request, @PathVariable UUID id) {
         return ResponseEntity.ok(reservationService.update(request, id));
     }
 

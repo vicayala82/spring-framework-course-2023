@@ -12,8 +12,11 @@ import com.vicayala.demotravel.domain.repositories.FlyRepository;
 import com.vicayala.demotravel.domain.repositories.HotelRepository;
 import com.vicayala.demotravel.domain.repositories.TourRepository;
 import com.vicayala.demotravel.infraestructure.abstract_services.ITourService;
+import com.vicayala.demotravel.infraestructure.helpers.BlackListHelper;
 import com.vicayala.demotravel.infraestructure.helpers.CustomerHelper;
 import com.vicayala.demotravel.infraestructure.helpers.TourHelper;
+import com.vicayala.demotravel.util.enums.Tables;
+import com.vicayala.demotravel.util.exceptions.IdNotFoundExceptions;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -34,14 +37,18 @@ public class TourService implements ITourService {
     private final CustomerRepository customerRepository;
     private final TourHelper tourHelper;
     private final CustomerHelper customerHelper;
+    private final BlackListHelper blackListHelper;
 
     @Override
     public TourResponse create(TourRequest request) {
-        var customer = customerRepository.findById(request.getCustomerId()).orElseThrow();
+        blackListHelper.isInCustomerBlackList(request.getCustomerId());
+        var customer = customerRepository.findById(request.getCustomerId())
+            .orElseThrow(()-> new IdNotFoundExceptions(Tables.customer.name()));
         var flights = new HashSet<FlyEntity>();
         var hotels = new HashMap<HotelEntity, Long>();
         request.getFlights().forEach(fly -> flights
-                    .add(this.flyRepository.findById(fly.getId()).orElseThrow())
+                    .add(this.flyRepository.findById(fly.getId())
+                        .orElseThrow(()-> new IdNotFoundExceptions(Tables.fly.name())))
                 );
         request.getHotels().forEach(hotel -> hotels.put(this.hotelRepository
             .findById(hotel.getId()).orElseThrow(), hotel.getTotalDays())
@@ -64,7 +71,8 @@ public class TourService implements ITourService {
 
     @Override
     public TourResponse read(Long id) {
-        var tourFromDb = this.tourRepository.findById(id).orElseThrow();
+        var tourFromDb = this.tourRepository.findById(id)
+            .orElseThrow(()-> new IdNotFoundExceptions(Tables.tour.name()));
         return TourResponse.builder()
                 .reservationIds(tourFromDb.getReservations().stream()
                         .map(ReservationEntity::getId).collect(Collectors.toSet()))
@@ -76,21 +84,25 @@ public class TourService implements ITourService {
 
     @Override
     public void delete(Long id) {
-        var tourToDelete = this.tourRepository.findById(id).orElseThrow();
+        var tourToDelete = this.tourRepository.findById(id)
+            .orElseThrow(()-> new IdNotFoundExceptions(Tables.tour.name()));
         this.tourRepository.delete(tourToDelete);
     }
 
     @Override
     public void removeTicket(Long tourId, UUID ticketId) {
-        var tourUpdate = this.tourRepository.findById(tourId).orElseThrow();
+        var tourUpdate = this.tourRepository.findById(tourId)
+            .orElseThrow(()-> new IdNotFoundExceptions(Tables.tour.name()));
         tourUpdate.removeTicket(ticketId);
         this.tourRepository.save(tourUpdate);
     }
 
     @Override
     public UUID addTicket(Long tourId, Long flyId) {
-        var tourUpdate = this.tourRepository.findById(tourId).orElseThrow();
-        var fly = this.flyRepository.findById(flyId).orElseThrow();
+        var tourUpdate = this.tourRepository.findById(tourId)
+            .orElseThrow(()-> new IdNotFoundExceptions(Tables.tour.name()));
+        var fly = this.flyRepository.findById(flyId)
+            .orElseThrow(()-> new IdNotFoundExceptions(Tables.fly.name()));
         var ticket = this.tourHelper.createTicket(fly, tourUpdate.getCustomer());
         tourUpdate.addTicket(ticket);
         this.tourRepository.save(tourUpdate);
@@ -99,15 +111,18 @@ public class TourService implements ITourService {
 
     @Override
     public void removeReservation(Long tourId, UUID reservationId) {
-        var tourUpdate = this.tourRepository.findById(tourId).orElseThrow();
+        var tourUpdate = this.tourRepository.findById(tourId)
+            .orElseThrow(()-> new IdNotFoundExceptions(Tables.tour.name()));
         tourUpdate.removeReservation(reservationId);
         this.tourRepository.save(tourUpdate);
     }
 
     @Override
     public UUID addReservation(Long tourId, Long hotelId, Integer totalDays) {
-        var tourUpdate = this.tourRepository.findById(tourId).orElseThrow();
-        var hotel = this.hotelRepository.findById(hotelId).orElseThrow();
+        var tourUpdate = this.tourRepository.findById(tourId)
+            .orElseThrow(()-> new IdNotFoundExceptions(Tables.tour.name()));
+        var hotel = this.hotelRepository.findById(hotelId)
+            .orElseThrow(()-> new IdNotFoundExceptions(Tables.hotel.name()));
         var reservation = this.tourHelper.createReservation(hotel,tourUpdate.getCustomer(),totalDays);
         tourUpdate.addReservation(reservation);
         this.tourRepository.save(tourUpdate);
