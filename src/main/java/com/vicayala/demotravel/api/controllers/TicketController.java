@@ -3,6 +3,7 @@ package com.vicayala.demotravel.api.controllers;
 import com.vicayala.demotravel.api.models.request.TicketRequest;
 import com.vicayala.demotravel.api.models.response.TicketResponse;
 import com.vicayala.demotravel.infraestructure.abstract_services.ITicketService;
+import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -20,7 +21,7 @@ public class TicketController {
     private final ITicketService ticketService;
 
     @PostMapping
-    public ResponseEntity<TicketResponse> create(@RequestBody TicketRequest request){
+    public ResponseEntity<TicketResponse> create(@Valid @RequestBody TicketRequest request){
         return ResponseEntity.ok(ticketService.create(request));
     }
 
@@ -29,7 +30,7 @@ public class TicketController {
         return ResponseEntity.ok(ticketService.read(id));
     }
     @PutMapping(path = "/{id}")
-    public ResponseEntity<TicketResponse> put(@PathVariable UUID id, @RequestBody TicketRequest request){
+    public ResponseEntity<TicketResponse> put(@Valid @PathVariable UUID id, @RequestBody TicketRequest request){
         return ResponseEntity.ok(ticketService.update(request, id));
     }
 

@@ -1,5 +1,7 @@
 package com.vicayala.demotravel.api.models.request;
 
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Positive;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -14,6 +16,8 @@ import java.util.Set;
 @Builder
 public class TourRequest implements Serializable {
 
+    @Positive
+    @NotNull(message = "Hotel Id is mandatory")
     private String customerId;
     private Set<TourFlyRequest> flights;
     private Set<TourHotelRequest> hotels;

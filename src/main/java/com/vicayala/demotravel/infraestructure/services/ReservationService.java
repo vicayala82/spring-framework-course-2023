@@ -7,8 +7,11 @@ import com.vicayala.demotravel.domain.repositories.CustomerRepository;
 import com.vicayala.demotravel.domain.repositories.HotelRepository;
 import com.vicayala.demotravel.domain.repositories.ReservationRepository;
 import com.vicayala.demotravel.infraestructure.abstract_services.IReservationService;
+import com.vicayala.demotravel.infraestructure.helpers.BlackListHelper;
 import com.vicayala.demotravel.infraestructure.helpers.CustomerHelper;
 import com.vicayala.demotravel.util.ServiceConstants;
+import com.vicayala.demotravel.util.enums.Tables;
+import com.vicayala.demotravel.util.exceptions.IdNotFoundExceptions;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -30,11 +33,15 @@ public class ReservationService implements IReservationService {
     private final CustomerRepository customerRepository;
     private final ReservationRepository reservationRepository;
     private final CustomerHelper customerHelper;
+    private final BlackListHelper blackListHelper;
 
     @Override
     public ReservationResponse create(ReservationRequest request) {
-        var hotel = hotelRepository.findById(request.getHotelId()).orElseThrow();
-        var customer = customerRepository.findById(request.getClientId()).orElseThrow();
+        blackListHelper.isInCustomerBlackList(request.getClientId());
+        var hotel = hotelRepository.findById(request.getHotelId())
+            .orElseThrow(()-> new IdNotFoundExceptions(Tables.hotel.name()));
+        var customer = customerRepository.findById(request.getClientId())
+            .orElseThrow(()-> new IdNotFoundExceptions(Tables.customer.name()));
         var reservationToPersist = ReservationEntity.builder()
                 .id(UUID.randomUUID())
                 .dateTimeReservation(LocalDateTime.now())
@@ -55,15 +62,19 @@ public class ReservationService implements IReservationService {
 
     @Override
     public ReservationResponse read(UUID id) {
-        var reservationFromDB = reservationRepository.findById(id).orElseThrow();
+        var reservationFromDB = reservationRepository.findById(id)
+            .orElseThrow(()-> new IdNotFoundExceptions(Tables.reservation.name()));
         return ReservationResponse.entityToResponse(reservationFromDB);
     }
 
     @Override
     public ReservationResponse update(ReservationRequest request, UUID id) {
-        var hotel = hotelRepository.findById(request.getHotelId()).orElseThrow();
-        var customer = customerRepository.findById(request.getClientId()).orElseThrow();
-        var reservationToUpdate = reservationRepository.findById(id).orElseThrow();
+        var hotel = hotelRepository.findById(request.getHotelId())
+                .orElseThrow(()-> new IdNotFoundExceptions(Tables.hotel.name()));
+        var customer = customerRepository.findById(request.getClientId())
+                .orElseThrow(()-> new IdNotFoundExceptions(Tables.customer.name()));
+        var reservationToUpdate = reservationRepository.findById(id)
+                .orElseThrow(()-> new IdNotFoundExceptions(Tables.reservation.name()));
         reservationToUpdate.setDateTimeReservation(LocalDateTime.now());
         reservationToUpdate.setDateStart(LocalDate.now());
         reservationToUpdate.setDateEnd(LocalDate.now().plusDays(5));
@@ -79,13 +90,15 @@ public class ReservationService implements IReservationService {
 
     @Override
     public void delete(UUID id) {
-        var reservationToDelete = reservationRepository.findById(id).orElseThrow();
+        var reservationToDelete = reservationRepository.findById(id)
+                .orElseThrow(()-> new IdNotFoundExceptions(Tables.reservation.name()));
         reservationRepository.deleteById(reservationToDelete.getId());
     }
 
     @Override
     public BigDecimal findPrice(Long hotelId){
-        var hotel = hotelRepository.findById(hotelId).orElseThrow();
+        var hotel = hotelRepository.findById(hotelId)
+                .orElseThrow(()-> new IdNotFoundExceptions(Tables.hotel.name()));
         return hotel.getPrice().add(hotel.getPrice()
                 .multiply(ServiceConstants.CHARGE_PRICE_PERCENTAGE));
     }
