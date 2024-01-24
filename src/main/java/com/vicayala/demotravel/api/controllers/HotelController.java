@@ -3,6 +3,7 @@ package com.vicayala.demotravel.api.controllers;
 import com.vicayala.demotravel.api.models.response.HotelResponse;
 import com.vicayala.demotravel.infraestructure.abstract_services.IHotelService;
 import com.vicayala.demotravel.util.enums.SortType;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
@@ -19,6 +20,7 @@ import java.util.Set;
 @RestController
 @RequestMapping(path = "hotel")
 @AllArgsConstructor
+@Tag(name = "Hotel")
 public class HotelController {
     
     private final IHotelService hotelService;

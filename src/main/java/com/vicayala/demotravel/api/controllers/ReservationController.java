@@ -1,8 +1,14 @@
 package com.vicayala.demotravel.api.controllers;
 
 import com.vicayala.demotravel.api.models.request.ReservationRequest;
+import com.vicayala.demotravel.api.models.response.ErrorsResponse;
 import com.vicayala.demotravel.api.models.response.ReservationResponse;
 import com.vicayala.demotravel.infraestructure.abstract_services.IReservationService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -24,10 +30,17 @@ import java.util.UUID;
 @RestController
 @RequestMapping(path = "reservation")
 @AllArgsConstructor
+@Tag(name = "Reservation")
 public class ReservationController {
 
     private final IReservationService reservationService;
 
+    @ApiResponse(responseCode = "400",
+            description = "When Request have invalid o missing fields",
+            content = {@Content(mediaType = "application/json",
+                        schema = @Schema(implementation = ErrorsResponse.class))}
+    )
+    @Operation(summary = "Save Reservation")
     @PostMapping
     public ResponseEntity<ReservationResponse> post(@Valid @RequestBody ReservationRequest request) {
         return ResponseEntity.ok(reservationService.create(request));
