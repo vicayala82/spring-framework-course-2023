@@ -18,13 +18,16 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.math.BigDecimal;
 import java.util.Collections;
+import java.util.Currency;
 import java.util.Map;
+import java.util.Objects;
 import java.util.UUID;
 
 @RestController
@@ -62,9 +65,15 @@ public class ReservationController {
         return ResponseEntity.noContent().build();
     }
 
+    @Operation(summary = "return a reservation price given a hotel id")
     @GetMapping
-    public ResponseEntity<Map<String, BigDecimal>> getReservationPrice(@RequestParam Long hotelId){
+    public ResponseEntity<Map<String, BigDecimal>> getReservationPrice(
+            @RequestParam Long hotelId,
+            @RequestHeader(required = false) Currency currency){
+        if(Objects.isNull(currency)){
+            Currency.getInstance("USD");
+        }
         return ResponseEntity.ok(Collections.singletonMap("hotel_price",
-                reservationService.findPrice(hotelId)));
+                reservationService.findPrice(hotelId, currency)));
     }
 }

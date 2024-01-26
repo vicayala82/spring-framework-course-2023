@@ -7,6 +7,7 @@ import com.vicayala.demotravel.domain.repositories.CustomerRepository;
 import com.vicayala.demotravel.domain.repositories.HotelRepository;
 import com.vicayala.demotravel.domain.repositories.ReservationRepository;
 import com.vicayala.demotravel.infraestructure.abstract_services.IReservationService;
+import com.vicayala.demotravel.infraestructure.helpers.ApiCurrencyConnectorHelper;
 import com.vicayala.demotravel.infraestructure.helpers.BlackListHelper;
 import com.vicayala.demotravel.infraestructure.helpers.CustomerHelper;
 import com.vicayala.demotravel.util.ServiceConstants;
@@ -21,6 +22,7 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
+import java.util.Currency;
 import java.util.UUID;
 
 @Transactional
@@ -34,6 +36,7 @@ public class ReservationService implements IReservationService {
     private final ReservationRepository reservationRepository;
     private final CustomerHelper customerHelper;
     private final BlackListHelper blackListHelper;
+    private final ApiCurrencyConnectorHelper apiCurrencyConnectorHelper;
 
     @Override
     public ReservationResponse create(ReservationRequest request) {
@@ -96,10 +99,17 @@ public class ReservationService implements IReservationService {
     }
 
     @Override
-    public BigDecimal findPrice(Long hotelId){
+    public BigDecimal findPrice(Long hotelId, Currency currency){
         var hotel = hotelRepository.findById(hotelId)
                 .orElseThrow(()-> new IdNotFoundExceptions(Tables.hotel.name()));
-        return hotel.getPrice().add(hotel.getPrice()
+        var priceInDollars = hotel.getPrice().add(hotel.getPrice()
                 .multiply(ServiceConstants.CHARGE_PRICE_PERCENTAGE));
+        if(currency.equals(Currency.getInstance("USD"))) {
+            return priceInDollars;
+        }
+        var currencyDTO = this.apiCurrencyConnectorHelper.getCurrency(currency);
+        log.info("API Currency in {}, response{}",
+            currencyDTO.getExchangeDate().toString(), currencyDTO.getRates());
+        return priceInDollars.multiply(currencyDTO.getRates().get(currency));
     }
 }
