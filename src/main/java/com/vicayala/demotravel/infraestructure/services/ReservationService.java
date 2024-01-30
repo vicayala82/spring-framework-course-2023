@@ -10,6 +10,7 @@ import com.vicayala.demotravel.infraestructure.abstract_services.IReservationSer
 import com.vicayala.demotravel.infraestructure.helpers.ApiCurrencyConnectorHelper;
 import com.vicayala.demotravel.infraestructure.helpers.BlackListHelper;
 import com.vicayala.demotravel.infraestructure.helpers.CustomerHelper;
+import com.vicayala.demotravel.infraestructure.helpers.EmailHelper;
 import com.vicayala.demotravel.util.ServiceConstants;
 import com.vicayala.demotravel.util.enums.Tables;
 import com.vicayala.demotravel.util.exceptions.IdNotFoundExceptions;
@@ -23,6 +24,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 import java.util.Currency;
+import java.util.Objects;
 import java.util.UUID;
 
 @Transactional
@@ -37,6 +39,7 @@ public class ReservationService implements IReservationService {
     private final CustomerHelper customerHelper;
     private final BlackListHelper blackListHelper;
     private final ApiCurrencyConnectorHelper apiCurrencyConnectorHelper;
+    private final EmailHelper emailHelper;
 
     @Override
     public ReservationResponse create(ReservationRequest request) {
@@ -60,6 +63,10 @@ public class ReservationService implements IReservationService {
         var reservationPersisted = ReservationResponse
                 .entityToResponse(reservationRepository.save(reservationToPersist));
         this.customerHelper.increase(customer.getDni(), ReservationService.class);
+        if(Objects.nonNull(request.getEmail())){
+            this.emailHelper.sendMail(request.getEmail(),
+                customer.getFullName(), Tables.reservation.name());
+        }
         return reservationPersisted;
     }
 

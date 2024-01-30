@@ -3,13 +3,13 @@ package com.vicayala.demotravel.infraestructure.services;
 import com.vicayala.demotravel.api.models.request.TicketRequest;
 import com.vicayala.demotravel.api.models.response.TicketResponse;
 import com.vicayala.demotravel.domain.entities.TicketEntity;
-import com.vicayala.demotravel.domain.entities.TourEntity;
 import com.vicayala.demotravel.domain.repositories.CustomerRepository;
 import com.vicayala.demotravel.domain.repositories.FlyRepository;
 import com.vicayala.demotravel.domain.repositories.TicketRepository;
 import com.vicayala.demotravel.infraestructure.abstract_services.ITicketService;
 import com.vicayala.demotravel.infraestructure.helpers.BlackListHelper;
 import com.vicayala.demotravel.infraestructure.helpers.CustomerHelper;
+import com.vicayala.demotravel.infraestructure.helpers.EmailHelper;
 import com.vicayala.demotravel.util.BestTravelUtil;
 import com.vicayala.demotravel.util.enums.Tables;
 import com.vicayala.demotravel.util.exceptions.IdNotFoundExceptions;
@@ -20,6 +20,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.Objects;
 import java.util.UUID;
 
 import static com.vicayala.demotravel.util.ServiceConstants.CHARGE_PRICE_PERCENTAGE;
@@ -35,6 +36,7 @@ public class TicketService implements ITicketService {
     private final TicketRepository ticketRepository;
     private final CustomerHelper customerHelper;
     private final BlackListHelper blackListHelper;
+    private final EmailHelper emailHelper;
 
      @Override
     public TicketResponse create(TicketRequest request) {
@@ -54,6 +56,10 @@ public class TicketService implements ITicketService {
         var ticketPersisted = this.ticketRepository.save(ticketToPersist);
         log.info("Ticket saved with id: {}", ticketPersisted.getId());
         this.customerHelper.increase(customer.getDni(), TicketService.class);
+         if(Objects.nonNull(request.getEmail())){
+             this.emailHelper.sendMail(request.getEmail(),
+                     customer.getFullName(), Tables.ticket.name());
+         }
         return TicketResponse.entityToResponse(ticketPersisted);
     }
 
