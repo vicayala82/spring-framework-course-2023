@@ -3,8 +3,10 @@ package com.vicayala.demotravel.infraestructure.services;
 import com.vicayala.demotravel.api.models.response.FlyResponse;
 import com.vicayala.demotravel.domain.repositories.FlyRepository;
 import com.vicayala.demotravel.infraestructure.abstract_services.IFlyService;
+import com.vicayala.demotravel.util.ServiceConstants;
 import com.vicayala.demotravel.util.enums.SortType;
 import lombok.AllArgsConstructor;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
@@ -33,6 +35,7 @@ public class FlyService implements IFlyService {
     }
 
     @Override
+    @Cacheable(value = ServiceConstants.FLY_CACHE_NAME)
     public Set<FlyResponse> readLessPrice(BigDecimal price) {
         return flyRepository.selectLessPrice(price)
                 .stream()
@@ -41,6 +44,7 @@ public class FlyService implements IFlyService {
     }
 
     @Override
+    @Cacheable(value = ServiceConstants.FLY_CACHE_NAME)
     public Set<FlyResponse> readBetweenPrice(BigDecimal min, BigDecimal max) {
         return flyRepository.selectBetweenPrice(min, max)
                 .stream()
@@ -49,6 +53,7 @@ public class FlyService implements IFlyService {
     }
 
     @Override
+    @Cacheable(value = ServiceConstants.FLY_CACHE_NAME)
     public Set<FlyResponse> readByOriginDestiny(String origin, String destiny) {
         return flyRepository.selectOriginDestiny(origin, destiny)
                 .stream()
