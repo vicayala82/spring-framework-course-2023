@@ -1,6 +1,6 @@
-package com.vicayala.demotravel.domain.repositories;
+package com.vicayala.demotravel.domain.repositories.jpa;
 
-import com.vicayala.demotravel.domain.entities.FlyEntity;
+import com.vicayala.demotravel.domain.entities.jpa.FlyEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 

@@ -1,11 +1,10 @@
-package com.vicayala.demotravel.domain.entities;
+package com.vicayala.demotravel.domain.entities.jpa;
 
-import com.vicayala.demotravel.util.enums.AeroLine;
+
+
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -17,40 +16,34 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
+
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Set;
 
-@Entity(name = "fly")
+@Entity(name = "hotel")
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
 @Builder
-public class FlyEntity implements Serializable {
+public class HotelEntity implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private Double originLat;
-    private Double originLng;
-    private Double destinyLat;
-    private Double destinyLng;
-    @Column(length = 20)
-    private String originName;
-    @Column(length = 20)
-    private String destinyName;
+    @Column(length = 50)
+    private String name;
+    @Column(length = 50)
+    private String address;
+    private Integer rating;
     private BigDecimal price;
-    @Enumerated(EnumType.STRING)
-    private AeroLine aeroLine;
     @ToString.Exclude
     @EqualsAndHashCode.Exclude
     @OneToMany(
             cascade = CascadeType.ALL,
-            fetch = FetchType.LAZY,
+            fetch = FetchType.EAGER,
             orphanRemoval = true,
-            mappedBy = "fly"
+            mappedBy = "hotel"
     )
-    private Set<TicketEntity> tickets;
-
-
+    private Set<ReservationEntity> reservations;
 }

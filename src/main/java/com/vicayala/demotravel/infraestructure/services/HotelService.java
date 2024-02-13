@@ -1,7 +1,7 @@
 package com.vicayala.demotravel.infraestructure.services;
 
 import com.vicayala.demotravel.api.models.response.HotelResponse;
-import com.vicayala.demotravel.domain.repositories.HotelRepository;
+import com.vicayala.demotravel.domain.repositories.jpa.HotelRepository;
 import com.vicayala.demotravel.infraestructure.abstract_services.IHotelService;
 import com.vicayala.demotravel.util.ServiceConstants;
 import com.vicayala.demotravel.util.enums.SortType;

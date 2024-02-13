@@ -1,6 +1,6 @@
 package com.vicayala.demotravel.api.models.response;
 
-import com.vicayala.demotravel.domain.entities.HotelEntity;
+import com.vicayala.demotravel.domain.entities.jpa.HotelEntity;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;

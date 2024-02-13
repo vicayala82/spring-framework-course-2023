@@ -1,6 +1,6 @@
-package com.vicayala.demotravel.domain.repositories;
+package com.vicayala.demotravel.domain.repositories.jpa;
 
-import com.vicayala.demotravel.domain.entities.HotelEntity;
+import com.vicayala.demotravel.domain.entities.jpa.HotelEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.math.BigDecimal;

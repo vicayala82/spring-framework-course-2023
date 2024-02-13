@@ -1,7 +1,7 @@
 package com.vicayala.demotravel.infraestructure.services;
 
 import com.vicayala.demotravel.api.models.response.FlyResponse;
-import com.vicayala.demotravel.domain.repositories.FlyRepository;
+import com.vicayala.demotravel.domain.repositories.jpa.FlyRepository;
 import com.vicayala.demotravel.infraestructure.abstract_services.IFlyService;
 import com.vicayala.demotravel.util.ServiceConstants;
 import com.vicayala.demotravel.util.enums.SortType;

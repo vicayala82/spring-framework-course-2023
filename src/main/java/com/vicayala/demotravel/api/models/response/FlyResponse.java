@@ -1,6 +1,6 @@
 package com.vicayala.demotravel.api.models.response;
 
-import com.vicayala.demotravel.domain.entities.FlyEntity;
+import com.vicayala.demotravel.domain.entities.jpa.FlyEntity;
 import com.vicayala.demotravel.util.enums.AeroLine;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
