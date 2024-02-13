@@ -1,4 +1,4 @@
-package com.vicayala.demotravel.domain.entities;
+package com.vicayala.demotravel.domain.entities.jpa;
 
 
 

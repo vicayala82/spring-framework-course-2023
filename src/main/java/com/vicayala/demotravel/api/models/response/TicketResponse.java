@@ -1,7 +1,7 @@
 package com.vicayala.demotravel.api.models.response;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.vicayala.demotravel.domain.entities.TicketEntity;
+import com.vicayala.demotravel.domain.entities.jpa.TicketEntity;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;

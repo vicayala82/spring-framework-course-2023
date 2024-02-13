@@ -1,7 +1,7 @@
 package com.vicayala.demotravel.infraestructure.services;
 
-import com.vicayala.demotravel.domain.entities.CustomerEntity;
-import com.vicayala.demotravel.domain.repositories.CustomerRepository;
+import com.vicayala.demotravel.domain.entities.jpa.CustomerEntity;
+import com.vicayala.demotravel.domain.repositories.jpa.CustomerRepository;
 import com.vicayala.demotravel.infraestructure.abstract_services.IReportService;
 import com.vicayala.demotravel.util.ServiceConstants;
 import lombok.AllArgsConstructor;

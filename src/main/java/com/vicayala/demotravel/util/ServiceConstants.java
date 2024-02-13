@@ -19,6 +19,7 @@ public class ServiceConstants {
     public static final String FILE_NAME = "Sales-%s.xlsx";
     public static final MediaType FORCE_DOWNLOAD = new MediaType("application", "force-download");
     public static final String FORCE_DOWNLOAD_HEADER_VALUE = "attachment; filename=report.xlsx";
+    public static final String COLLECTION_NAMES = "app_user";
 
     //REDIS CONSTANTS
 

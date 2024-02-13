@@ -2,9 +2,9 @@
 
   services:
 
-    db:
+    sql-db:
       image: postgres:15.2
-      container_name: best_travel
+      container_name: best_travel_sql
       restart: always
       volumes:
         - ./db/sql/create_schema.sql:/docker-entrypoint-initdb.d/create_schema.sql
@@ -22,3 +22,16 @@
       ports:
         - "6379:6379"
       command: redis-server --loglevel debug --requirepass redis
+
+    nosql-db:
+      image: mongo:6.0.13
+      restart: always
+      container_name: best_travel_mongo_users
+      environment:
+        MONGO_INITDB_ROOT_USERNAME: master
+        MONGO_INITDB_ROOT_PASSWORD: mongo
+        MONGO_INITDB_DATABASE: users
+      ports:
+        - "27017:27017"
+      volumes:
+        - ./db/mongo/init-mongo.js:/docker-entrypoint-initdb.d/init-mongo.js:ro

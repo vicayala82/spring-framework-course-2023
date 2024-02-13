@@ -2,10 +2,10 @@ package com.vicayala.demotravel.infraestructure.services;
 
 import com.vicayala.demotravel.api.models.request.ReservationRequest;
 import com.vicayala.demotravel.api.models.response.ReservationResponse;
-import com.vicayala.demotravel.domain.entities.ReservationEntity;
-import com.vicayala.demotravel.domain.repositories.CustomerRepository;
-import com.vicayala.demotravel.domain.repositories.HotelRepository;
-import com.vicayala.demotravel.domain.repositories.ReservationRepository;
+import com.vicayala.demotravel.domain.entities.jpa.ReservationEntity;
+import com.vicayala.demotravel.domain.repositories.jpa.CustomerRepository;
+import com.vicayala.demotravel.domain.repositories.jpa.HotelRepository;
+import com.vicayala.demotravel.domain.repositories.jpa.ReservationRepository;
 import com.vicayala.demotravel.infraestructure.abstract_services.IReservationService;
 import com.vicayala.demotravel.infraestructure.helpers.ApiCurrencyConnectorHelper;
 import com.vicayala.demotravel.infraestructure.helpers.BlackListHelper;

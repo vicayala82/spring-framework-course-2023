@@ -1,12 +1,12 @@
 package com.vicayala.demotravel.infraestructure.helpers;
 
-import com.vicayala.demotravel.domain.entities.CustomerEntity;
-import com.vicayala.demotravel.domain.entities.FlyEntity;
-import com.vicayala.demotravel.domain.entities.HotelEntity;
-import com.vicayala.demotravel.domain.entities.ReservationEntity;
-import com.vicayala.demotravel.domain.entities.TicketEntity;
-import com.vicayala.demotravel.domain.repositories.ReservationRepository;
-import com.vicayala.demotravel.domain.repositories.TicketRepository;
+import com.vicayala.demotravel.domain.entities.jpa.CustomerEntity;
+import com.vicayala.demotravel.domain.entities.jpa.FlyEntity;
+import com.vicayala.demotravel.domain.entities.jpa.HotelEntity;
+import com.vicayala.demotravel.domain.entities.jpa.ReservationEntity;
+import com.vicayala.demotravel.domain.entities.jpa.TicketEntity;
+import com.vicayala.demotravel.domain.repositories.jpa.ReservationRepository;
+import com.vicayala.demotravel.domain.repositories.jpa.TicketRepository;
 import com.vicayala.demotravel.util.BestTravelUtil;
 import com.vicayala.demotravel.util.ServiceConstants;
 import lombok.AllArgsConstructor;

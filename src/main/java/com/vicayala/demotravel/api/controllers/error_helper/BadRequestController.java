@@ -4,6 +4,7 @@ import com.vicayala.demotravel.api.models.response.BaseErrorResponse;
 import com.vicayala.demotravel.api.models.response.ErrorResponse;
 import com.vicayala.demotravel.api.models.response.ErrorsResponse;
 import com.vicayala.demotravel.util.exceptions.IdNotFoundExceptions;
+import com.vicayala.demotravel.util.exceptions.UsernameNotFoundExceptions;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -16,8 +17,8 @@ import java.util.ArrayList;
 @ResponseStatus(HttpStatus.BAD_REQUEST)
 public class BadRequestController {
 
-    @ExceptionHandler(IdNotFoundExceptions.class)
-    public BaseErrorResponse handleIdNotFound(IdNotFoundExceptions exception){
+    @ExceptionHandler({IdNotFoundExceptions.class, UsernameNotFoundExceptions.class})
+    public BaseErrorResponse handleIdNotFound(RuntimeException exception){
         return ErrorResponse.builder()
                 .message(exception.getMessage())
                 .status(HttpStatus.BAD_REQUEST.name())

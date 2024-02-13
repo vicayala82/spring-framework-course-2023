@@ -1,6 +1,6 @@
 package com.vicayala.demotravel.infraestructure.helpers;
 
-import com.vicayala.demotravel.domain.repositories.CustomerRepository;
+import com.vicayala.demotravel.domain.repositories.jpa.CustomerRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;

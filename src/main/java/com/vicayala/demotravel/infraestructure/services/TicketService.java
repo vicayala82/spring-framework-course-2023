@@ -2,10 +2,10 @@ package com.vicayala.demotravel.infraestructure.services;
 
 import com.vicayala.demotravel.api.models.request.TicketRequest;
 import com.vicayala.demotravel.api.models.response.TicketResponse;
-import com.vicayala.demotravel.domain.entities.TicketEntity;
-import com.vicayala.demotravel.domain.repositories.CustomerRepository;
-import com.vicayala.demotravel.domain.repositories.FlyRepository;
-import com.vicayala.demotravel.domain.repositories.TicketRepository;
+import com.vicayala.demotravel.domain.entities.jpa.TicketEntity;
+import com.vicayala.demotravel.domain.repositories.jpa.CustomerRepository;
+import com.vicayala.demotravel.domain.repositories.jpa.FlyRepository;
+import com.vicayala.demotravel.domain.repositories.jpa.TicketRepository;
 import com.vicayala.demotravel.infraestructure.abstract_services.ITicketService;
 import com.vicayala.demotravel.infraestructure.helpers.BlackListHelper;
 import com.vicayala.demotravel.infraestructure.helpers.CustomerHelper;
