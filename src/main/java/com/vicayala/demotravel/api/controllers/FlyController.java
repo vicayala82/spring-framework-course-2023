@@ -3,6 +3,7 @@ package com.vicayala.demotravel.api.controllers;
 
 import com.vicayala.demotravel.api.models.response.FlyResponse;
 import com.vicayala.demotravel.infraestructure.abstract_services.IFlyService;
+import com.vicayala.demotravel.util.anotations.Notify;
 import com.vicayala.demotravel.util.enums.SortType;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AllArgsConstructor;
@@ -27,6 +28,7 @@ public class FlyController {
     private final IFlyService flyService;
 
     @GetMapping
+    @Notify
     public ResponseEntity<Page<FlyResponse>> getAll(
             @RequestParam Integer page,
             @RequestParam Integer size,

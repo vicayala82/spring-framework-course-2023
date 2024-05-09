@@ -2,6 +2,7 @@ package com.vicayala.demotravel.api.controllers;
 
 import com.vicayala.demotravel.api.models.response.HotelResponse;
 import com.vicayala.demotravel.infraestructure.abstract_services.IHotelService;
+import com.vicayala.demotravel.util.anotations.Notify;
 import com.vicayala.demotravel.util.enums.SortType;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AllArgsConstructor;
@@ -25,6 +26,7 @@ public class HotelController {
     
     private final IHotelService hotelService;
     @GetMapping
+    @Notify(value = "files/notify2.txt")
     public ResponseEntity<Page<HotelResponse>> getAll(
             @RequestParam Integer page,
             @RequestParam Integer size,
